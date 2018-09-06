@@ -41,9 +41,11 @@ export const updateCategories = (categories, shouldRequestPermission = true) => 
 
   RNNotificationActions.updateCategories(cats, shouldRequestPermission);
   // Re-update when permissions change
-  NativeAppEventEmitter.addListener('remoteNotificationsRegistered', () => {
-    RNNotificationActions.updateCategories(cats, false);
-  });
+  if (shouldRequestPermission) {
+    NativeAppEventEmitter.addListener('remoteNotificationsRegistered', () => {
+      RNNotificationActions.updateCategories(cats, false);
+    });
+  }
 };
 
 
